@@ -1,0 +1,102 @@
+version: "3.6"
+
+services:
+    ftp:
+        image: ftp:2023.05.05
+        container_name: ftp
+        build: ./requirements/bonus/ftp/
+        env_file: .env
+        volumes:
+            -  $HOME/data/var/www/wordpress/:$HOME/data/var/www/wordpress/
+        ports:
+            - "21:21"
+        networks:
+            - ahabachi-inception-network
+        restart: always
+    mariadb:
+        image: mariadb:2023.04.29
+        container_name: mariadb
+        build: requirements/mariadb/
+        env_file: .env
+        ports:
+            - "3306"
+        networks:
+            - ahabachi-inception-network
+        volumes:
+            -  $HOME/data/var/lib/mysql:/var/lib/mysql
+        restart: always
+    wordpress:
+        image: wordpress:2023.04.22
+        container_name: wordpress
+        build: requirements/wordpress
+        ports:
+            - "9000"
+        volumes:
+            - $HOME/data/var/www/wordpress:/var/www/wordpress
+        depends_on:
+            - mariadb
+        env_file: .env
+        networks:
+            - ahabachi-inception-network
+        restart: always
+    nginx:
+        image: nginx:2023.04.13
+        container_name: nginx
+        build: ./requirements/nginx/
+        ports:
+            - "443:443"
+        depends_on:
+            - mariadb
+            - wordpress
+        volumes:
+            -  $HOME/data/var/www/wordpress:/var/www/wordpress
+        networks:
+            - ahabachi-inception-network
+        restart: always
+    redis:
+        image: redis:2023.05.03
+        container_name: redis
+        build: ./requirements/bonus/redis/
+        volumes:
+            -  $HOME/data/var/www/wordpress:/var/www/wordpress
+        networks:
+            - ahabachi-inception-network
+        restart: always
+    adminer:
+        image: adminer:2023.05.08
+        container_name: adminer
+        build: ./requirements/bonus/adminer/
+        ports:
+            - "8080:8080"
+        depends_on:
+            - mariadb
+        env_file: .env
+        networks:
+            - ahabachi-inception-network
+        restart: always
+        volumes:
+            -  $HOME/data/var/www/html:/var/www/html
+    static-website:
+        image: static-website:2023.05.12
+        container_name: static-website
+        build: ./requirements/bonus/static-website/
+        ports:
+            - "1337:1337"
+        networks:
+            - ahabachi-inception-network
+        restart: always
+    python-server-with-ssh:
+        image: python-server-with-ssh:2023.05.11
+        container_name: python-server-with-ssh
+        build: ./requirements/bonus/python-server-with-ssh/
+        ports:
+            - "2024:2024"
+            - "2023:2023"
+        env_file: .env
+        networks:
+            - ahabachi-inception-network
+        restart: always
+
+networks:
+    ahabachi-inception-network:
+        name: ahabachi-inception-network
