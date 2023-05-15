@@ -27,7 +27,7 @@ import os
 
 def setup():
 	content = open('/etc/ssh/ssh_config').read()
-	content+= '\nPort 2024\n'
+	content+= '\nPort ' + os.environ['SSH_PORT'] + '\n'
 	with open('/etc/ssh/ssh_config', 'w') as fp:
 		fp.write(content)
 

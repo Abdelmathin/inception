@@ -23,10 +23,11 @@
 #                                                                              #
 #  **************************************************************************  #
 
+import os
 from tools import Adminer
 
 def configure():
-	ad = Adminer('/var/www/html', '0.0.0.0', 8080)
+	ad = Adminer('/var/www/html', os.environ['ADMINER_HOST'], os.environ['ADMINER_PORT'])
 	ad.install()
 	ad.run()
 

@@ -22,28 +22,42 @@
 #                                                                              #
 #  **************************************************************************  #
 
+# make <rule> sudo=sudo
+
 NAME	=	inception
 
-re: all
-
 $(NAME): clear
-	cd srcs && docker-compose up --build
+	cd srcs && $(sudo) docker-compose up --build
 
 all: $(NAME)
 
 up: clear
-	cd srcs && docker-compose up
+	cd srcs && $(sudo) docker-compose up
 
 down:
-	cd srcs && docker-compose down
+	cd srcs && $(sudo) docker-compose down
+
+build:
+	cd srcs && $(sudo) docker-compose build
+
+start:
+	cd srcs && $(sudo) docker-compose start
+
+restart:
+	cd srcs && $(sudo) docker-compose restart
+
+stop:
+	cd srcs && $(sudo) docker-compose stop
 
 fclean: clear
-	@docker system prune --all --force || echo ""
-	@docker stop $(docker ps -qa) || echo ""
-	@docker rm $(docker ps -qa) || echo ""
-	@docker rmi -f $(docker images -qa) || echo ""
-	@docker volume rm $(docker volume ls -q) || echo ""
-	@docker network rm $(docker network ls -q) 2>/dev/null || echo ""
+	@$(sudo) docker system prune --all --force || echo ""
+	@$(sudo) docker stop $(docker ps -qa) || echo ""
+	@$(sudo) docker rm $(docker ps -qa) || echo ""
+	@$(sudo) docker rmi -f $(docker images -qa) || echo ""
+	@$(sudo) docker volume rm $(docker volume ls -q) || echo ""
+	@$(sudo) docker network rm $(docker network ls -q) 2>/dev/null || echo ""
 
 clear:
 	@clear
+
+re: fclean all

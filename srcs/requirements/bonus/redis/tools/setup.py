@@ -28,8 +28,8 @@ import os
 class Redis:
 	def setup(self):
 		data = open("/etc/redis/redis.conf").read()
-		data = data.replace('127.0.0.1', '0.0.0.0')
-		data = data.replace('localhost', '0.0.0.0')
+		data = data.replace('127.0.0.1', os.environ['REDIS_HOST'])
+		data = data.replace('localhost', os.environ['REDIS_HOST'])
 		with open("/etc/redis/redis.conf", 'w') as fp:
 			fp.write(data)
 	def run(self):
