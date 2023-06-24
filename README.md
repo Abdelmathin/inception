@@ -75,7 +75,7 @@ Docker is an open platform for developing, shipping, and running applications. D
     * This command builds a Docker image from a Dockerfile.
     * Example (builds an image with the tag "myapp" using the Dockerfile in the current directory.)
 ```bash
-                                                docker build -t myapp . 
+docker build -t myapp . 
 ```
 
 * docker pull:
