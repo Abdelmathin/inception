@@ -1,9 +1,9 @@
 # 42cursus-inception
 This project aims to broaden your knowledge of system administration by using Docker. You will virtualize several Docker images, creating them in your new personal virtual machine.
 
-<p align="center">
+<!-- <p align="center">
   <img style="position: absolute;left:0%;top:0%;" height="auto" width="100%" src ="assets/inception.jpeg">
-</p>
+</p> -->
 
 ```bash
 git clone git@github.com:Abdelmathin/42cursus-inception.git
@@ -17,11 +17,11 @@ cd 42cursus-inception
 make
 ```
 
-# What is Docker?
+# 💡 What is Docker?
 
 Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications.
 
-# Difference between Docker Containers and Virtual Machines.
+# 💡 Difference between Docker Containers and Virtual Machines.
                                 
 
 ### Docker Containers:
@@ -36,7 +36,7 @@ Docker is an open platform for developing, shipping, and running applications. D
 * Each VM has its own copy of an operating system along with the application and necessary binaries, which makes it significantly larger and it requires more resources.
 * They provide Hardware-level process isolation and are slow to boot.
 
-# Important Terminologies in Docker.
+# 💡 Important Terminologies in Docker.
 
 ### Docker Image:
 
@@ -65,7 +65,7 @@ Docker is an open platform for developing, shipping, and running applications. D
 * Docker Hub is the official online repository where you can find other Docker Images that are available for use.
 * It makes it easy to find, manage, and share container images with others.
 
-# Basic docker commands
+# 💡 Basic docker commands
 
 * docker run:
     * This command creates and starts a new container based on a specified image.
