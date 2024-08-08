@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:bullseye
 
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install openssl
 RUN apt-get -y install nginx && apt-get -y install python

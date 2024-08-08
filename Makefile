@@ -1,4 +1,4 @@
-#  **************************************************************************  #
+ #  **************************************************************************  #
 #                                                                              #
 #                                                          :::      ::::::::   #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -22,9 +22,11 @@
 #                                                                              #
 #  **************************************************************************  #
 
+include srcs/.env
+
 # make <rule> sudo=sudo
 
-NAME	=	inception
+NAME=inception
 
 $(NAME): clear
 	cd srcs && $(sudo) docker-compose up --build
@@ -56,6 +58,16 @@ fclean: clear
 	@$(sudo) docker rmi -f $(docker images -qa) || echo ""
 	@$(sudo) docker volume rm $(docker volume ls -q) || echo ""
 	@$(sudo) docker network rm $(docker network ls -q) 2>/dev/null || echo ""
+
+ls:
+	@echo ">> containers:"
+	$(sudo) docker container ls
+	@echo ">> images:"
+	$(sudo) docker image ls
+	@echo ">> networks:"
+	$(sudo) docker network ls
+	@echo ">> volumes:"
+	$(sudo) docker volume ls
 
 clear:
 	@clear

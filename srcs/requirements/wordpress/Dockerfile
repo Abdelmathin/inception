@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:bullseye
 
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install curl && apt-get -y install python && mkdir -p /etc/inception/wordpress/tools && mkdir -p /var/www/html/ && mkdir -p /var/www/wordpress/
 
