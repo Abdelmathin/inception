@@ -26,7 +26,7 @@ version: "3.6"
 
 services:
     mariadb:
-        image: mariadb:2023.04.29
+        image: mariadb:inception-2023.04.29
         container_name: mariadb
         build: requirements/mariadb
         env_file: .env
@@ -36,7 +36,7 @@ services:
             -  $MARIADB_VOLUME:/var/lib/mysql
         restart: always
     wordpress:
-        image: wordpress:2023.04.22
+        image: wordpress:inception-2023.04.22
         container_name: wordpress
         build: requirements/wordpress
         volumes:
@@ -48,11 +48,12 @@ services:
             - inception-network
         restart: always
     nginx:
-        image: nginx:2023.04.13
+        image: nginx:inception-2023.04.13
         container_name: nginx
         build: ./requirements/nginx
         ports:
-            - "443:443"
+            - "$NGINX_PORT:$NGINX_PORT"
+        env_file: .env
         depends_on:
             - mariadb
             - wordpress
@@ -61,62 +62,62 @@ services:
         networks:
             - inception-network
         restart: always
-    redis:
-        image: redis:2023.05.03
-        container_name: redis
-        build: ./requirements/bonus/redis
-        env_file: .env
-        volumes:
-            -  $WORDPRESS_VOLUME:/var/www/wordpress
-        networks:
-            - inception-network
-        restart: always
-    adminer:
-        image: adminer:2023.05.08
-        container_name: adminer
-        build: ./requirements/bonus/adminer
-        ports:
-            - "8080:8080"
-        depends_on:
-            - mariadb
-        env_file: .env
-        networks:
-            - inception-network
-        restart: always
-        volumes:
-            -  $WORDPRESS_VOLUME:/var/www/html
-    static-website:
-        image: static-website:2023.05.12
-        container_name: static-website
-        build: ./requirements/bonus/static-website
-        ports:
-            - "1337:1337"
-        networks:
-            - inception-network
-        restart: always
-    python-server-with-ssh:
-        image: python-server-with-ssh:2023.05.11
-        container_name: python-server-with-ssh
-        build: ./requirements/bonus/python-server-with-ssh
-        ports:
-            - "2024:2024"
-            - "2023:2023"
-        env_file: .env
-        networks:
-            - inception-network
-        restart: always
-    ftp:
-        image: ftp:2023.05.05
-        container_name: ftp
-        build: ./requirements/bonus/ftp
-        env_file: .env
-        volumes:
-            -  $WORDPRESS_VOLUME:/var/www/wordpress
-        ports:
-            - "21:21"
-        networks:
-            - inception-network
-        restart: always
+    # redis:
+    #     image: redis:2023.05.03
+    #     container_name: redis
+    #     build: ./requirements/bonus/redis
+    #     env_file: .env
+    #     volumes:
+    #         -  $WORDPRESS_VOLUME:/var/www/wordpress
+    #     networks:
+    #         - inception-network
+    #     restart: always
+    # adminer:
+    #     image: adminer:2023.05.08
+    #     container_name: adminer
+    #     build: ./requirements/bonus/adminer
+    #     ports:
+    #         - "8080:8080"
+    #     depends_on:
+    #         - mariadb
+    #     env_file: .env
+    #     networks:
+    #         - inception-network
+    #     restart: always
+    #     volumes:
+    #         -  $WORDPRESS_VOLUME:/var/www/html
+    # static-website:
+    #     image: static-website:2023.05.12
+    #     container_name: static-website
+    #     build: ./requirements/bonus/static-website
+    #     ports:
+    #         - "8080:8080"
+    #     networks:
+    #         - inception-network
+    #     restart: always
+    # python-server-with-ssh:
+    #     image: python-server-with-ssh:2023.05.11
+    #     container_name: python-server-with-ssh
+    #     build: ./requirements/bonus/python-server-with-ssh
+    #     ports:
+    #         - "2024:2024"
+    #         - "2023:2023"
+    #     env_file: .env
+    #     networks:
+    #         - inception-network
+    #     restart: always
+    # ftp:
+    #     image: ftp:2023.05.05
+    #     container_name: ftp
+    #     build: ./requirements/bonus/ftp
+    #     env_file: .env
+    #     volumes:
+    #         -  $WORDPRESS_VOLUME:/var/www/wordpress
+    #     ports:
+    #         - "21:21"
+    #     networks:
+    #         - inception-network
+    #     restart: always
 
 networks:
     inception-network:

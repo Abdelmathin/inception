@@ -28,12 +28,12 @@ include srcs/.env
 
 NAME=inception
 
-$(NAME): clear
+$(NAME): init
 	cd srcs && $(sudo) docker-compose up --build
 
 all: $(NAME)
 
-up: clear
+up:
 	cd srcs && $(sudo) docker-compose up
 
 down:
@@ -51,25 +51,26 @@ restart:
 stop:
 	cd srcs && $(sudo) docker-compose stop
 
-fclean: clear
-	@$(sudo) docker system prune --all --force || echo ""
-	@$(sudo) docker stop $(docker ps -qa) || echo ""
-	@$(sudo) docker rm $(docker ps -qa) || echo ""
-	@$(sudo) docker rmi -f $(docker images -qa) || echo ""
-	@$(sudo) docker volume rm $(docker volume ls -q) || echo ""
-	@$(sudo) docker network rm $(docker network ls -q) 2>/dev/null || echo ""
+clean: down
+	@${sudo} docker image rm -f $$(docker image ls nginx:inception-2023.04.13 -q)     1> /dev/null 2> /dev/null || true
+	@${sudo} docker image rm -f $$(docker image ls wordpress:inception-2023.04.22 -q) 1> /dev/null 2> /dev/null || true
+	@${sudo} docker image rm -f $$(docker image ls mariadb:inception-2023.04.29 -q)   1> /dev/null 2> /dev/null || true
+	@${sudo}  docker network rm inception-network                                     1> /dev/null 2> /dev/null || true
+
+fclean: clean
 
 ls:
-	@echo ">> containers:"
-	$(sudo) docker container ls
-	@echo ">> images:"
-	$(sudo) docker image ls
-	@echo ">> networks:"
-	$(sudo) docker network ls
-	@echo ">> volumes:"
-	$(sudo) docker volume ls
+	@echo "# # # # # # # # # # # # # # # containers # # # # # # # # # # # # # # #"
+	@${sudo} docker container ls
+	@echo "# # # # # # # # # # # # # # # images # # # # # # # # # # # # # # # # #"
+	@${sudo} docker image ls
+	@echo "# # # # # # # # # # # # # # # networks # # # # # # # # # # # # # # # #"
+	@${sudo} docker network ls
+	@echo "# # # # # # # # # # # # # # # volumes # # # # # # # # # # # # # # # # #"
+	@${sudo} docker volume ls
 
-clear:
-	@clear
+init:
+	mkdir -p ${WORDPRESS_VOLUME}
+	mkdir -p ${MARIADB_VOLUME}
 
 re: fclean all

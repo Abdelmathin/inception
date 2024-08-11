@@ -9,4 +9,4 @@ COPY tools/ahabachi.jpeg	/etc/static-website
 
 WORKDIR /etc/static-website
 
-CMD ["python3", "-m", "http.server", "1337"]
+CMD ["python3", "-m", "http.server", "8080"]

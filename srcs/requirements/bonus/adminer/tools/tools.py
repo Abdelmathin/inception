@@ -31,7 +31,6 @@ class Adminer:
 		self.port = port
 		self.dirname = dirname
 	def install(self):
-		os.system ('mkdir -p "' + self.dirname + '" && wget "http://www.'
-			'adminer.org/latest.php" -O "' + self.dirname + '/index.php"')
+		os.system ('mkdir -p "' + self.dirname + '" && wget "http://www.adminer.org/latest.php" -O "' + self.dirname + '/index.php"')
 	def run(self):
 		os.system ('php -S ' + str(self.host) + ':' + str(self.port) + ' -t "' + self.dirname + '"')

@@ -39,13 +39,9 @@ class FTP:
 		os.system('/usr/sbin/vsftpd /etc/vsftpd.conf')
 		raise "RuntimeError"
 	def configure(self):
-		cmd = ('useradd --home /home/' + self.username +
-		'/ --create-home ' + self.username +
-		' && echo "' + self.username +
-		':' + self.password +
-		'" | chpasswd && chown -R "' + self.username +
-		':' + self.username +
-		'" /home/' + self.username + '/')
+		cmd  = ('useradd --home /home/' + self.username + '/ --create-home ' + self.username)
+		cmd += (' && echo "' + self.username + ':' + self.password + '" | chpasswd')
+		cmd += (' && chown -R "' + self.username + ':' + self.username + '" /home/' + self.username + '/')
 		os.system(cmd)
 		content = open(self.dirname + '/vsftpd.json', 'r').read()
 		config = (eval(content.strip()))

@@ -1,8 +1,6 @@
-FROM debian:stable
+FROM debian:bullseye
 
-RUN apt-get -y update && apt-get -y upgrade && apt-get -y install python redis redis-server systemctl
-
-RUN mkdir -p /etc/redis/
+RUN apt-get -y update && apt-get -y upgrade && apt-get -y install python redis redis-server systemctl && mkdir -p /etc/redis/
 
 COPY tools/setup.py /etc/redis/setup.py
 
