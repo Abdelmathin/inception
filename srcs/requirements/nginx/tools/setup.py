@@ -30,8 +30,8 @@ __dirname__ = __file__[:-len(__file__.split('/')[-1])]
 NGINX_CONFIG = '''
 
 server {
-    listen                  127.0.0.1:443 ssl;
-    listen                  0.0.0.0:443   ssl;
+    listen                  127.0.0.1:''' + os.environ['INCEPTION_PORT'] + ''' ssl;
+    listen                  0.0.0.0:''' + os.environ['INCEPTION_PORT'] + '''   ssl;
     ssl_certificate         /etc/nginx/certificates/inception.crt;
     ssl_certificate_key     /etc/nginx/certificates/inception.key;
     ssl_protocols           TLSv1.2;
