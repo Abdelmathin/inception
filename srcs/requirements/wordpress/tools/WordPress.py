@@ -27,10 +27,10 @@ import os
 import time
 
 class WordPress:
-	def __init__(self, version = os.environ['WP_VERSION']):
+	def __init__(self, version = os.environ['INCEPTION_WP_VERSION']):
 		self.logs_file = '/etc/inception/wordpress/tools/logs'
-		self.version = version
-		self.link = "https://wordpress.org/wordpress-" + version + ".tar.gz"
+		self.version   = version
+		self.link      = "https://wordpress.org/wordpress-" + version + ".tar.gz"
 	def install(self):
 
 		os.system("curl -o wordpress.tar.gz -fL " + self.link)
@@ -44,22 +44,22 @@ class WordPress:
 		
 		data = data.replace(
 			"define( 'DB_NAME', 'database_name_here' );",
-			"define( 'DB_NAME', '" + os.environ['DB_NAME'] + "' );"
+			"define( 'DB_NAME', '" + os.environ["INCEPTION_DB_NAME"] + "' );"
 			)
 
 		data = data.replace(
 			"define( 'DB_USER', 'username_here' );",
-			"define( 'DB_USER', '" + os.environ['DB_USER'] + "' );"
+			"define( 'DB_USER', '" + os.environ['INCEPTION_DB_USER'] + "' );"
 			)
 
 		data = data.replace(
 			"define( 'DB_PASSWORD', 'password_here' );",
-			"define( 'DB_PASSWORD', '" + os.environ['DB_PASSWORD'] + "' );",
+			"define( 'DB_PASSWORD', '" + os.environ['INCEPTION_DB_PASSWORD'] + "' );",
 			)
 
 		data = data.replace(
 			"define( 'DB_HOST', 'localhost' );",
-			"define( 'DB_HOST', '" + os.environ['DB_HOST'] + "' );",
+			"define( 'DB_HOST', '" + os.environ["INCEPTION_DB_HOST"] + "' );",
 			)
 
 		with open('wordpress/wp-config.php', 'w') as fp:
@@ -74,28 +74,28 @@ class WordPress:
 
 			cmd += '\n' + ('wp-cli.phar core install '
 				'--url="'            + os.environ['INCEPTION_DOMAIN_NAME'] + '" '
-				'--title="'          + os.environ['WP_TITLE']    + '" '
-				'--admin_user="'     + os.environ['WP_USER']     + '" '
-				'--admin_password="' + os.environ['WP_PASSWORD'] + '" '
-				'--admin_email="'    + os.environ['WP_EMAIL']    + '" '
+				'--title="'          + os.environ['INCEPTION_WP_TITLE']    + '" '
+				'--admin_user="'     + os.environ['INCEPTION_WP_USER']     + '" '
+				'--admin_password="' + os.environ['INCEPTION_WP_PASSWORD'] + '" '
+				'--admin_email="'    + os.environ['INCEPTION_WP_EMAIL']    + '" '
 				'--allow-root'
 				' 1>> "' + self.logs_file + '" 2>> "' + self.logs_file + '"'
 				)
 			
 			cmd += '\n' + ('wp-cli.phar core install '
 				'--url="'            + os.environ['INCEPTION_DOMAIN_NAME'] + '" '
-				'--title="'          + os.environ['WP_TITLE']    + '" '
-				'--admin_user="'     + os.environ['WP_USER']     + '" '
-				'--admin_password="' + os.environ['WP_PASSWORD'] + '" '
-				'--admin_email="'    + os.environ['WP_EMAIL']    + '" '
+				'--title="'          + os.environ['INCEPTION_WP_TITLE']    + '" '
+				'--admin_user="'     + os.environ['INCEPTION_WP_USER']     + '" '
+				'--admin_password="' + os.environ['INCEPTION_WP_PASSWORD'] + '" '
+				'--admin_email="'    + os.environ['INCEPTION_WP_EMAIL']    + '" '
 				'--allow-root'
 				' 1>> "' + self.logs_file + '" 2>> "' + self.logs_file + '"'
 				)
 
-			cmd += '\n' + ('wp user create "' + os.environ['WP_AUTHOR_USER'] + '" "'
-				+ os.environ['WP_AUTHOR_MAIL'] + 
+			cmd += '\n' + ('wp user create "' + os.environ['INCEPTION_WP_AUTHOR_USER'] + '" "'
+				+ os.environ['INCEPTION_WP_AUTHOR_MAIL'] + 
 				'" --role=author --user_pass="'
-				+ os.environ['WP_AUTHOR_PASSWORD'] + '" --allow-root'
+				+ os.environ['INCEPTION_WP_AUTHOR_PASSWORD'] + '" --allow-root'
 				' 1>> "' + self.logs_file + '" 2>> "' + self.logs_file + '"'
 			)
 

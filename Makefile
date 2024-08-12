@@ -29,27 +29,27 @@ include srcs/.env
 NAME=inception
 
 $(NAME): init
-	cd srcs && $(sudo) docker-compose up --build
+	cd srcs && ${sudo} docker-compose up --build
 
 all: $(NAME)
 
 up: init
-	cd srcs && $(sudo) docker-compose up
+	cd srcs && ${sudo} docker-compose up
 
 down:
-	cd srcs && $(sudo) docker-compose down
+	cd srcs && ${sudo} docker-compose down
 
 build: init
-	cd srcs && $(sudo) docker-compose build
+	cd srcs && ${sudo} docker-compose build
 
 start: init
-	cd srcs && $(sudo) docker-compose start
+	cd srcs && ${sudo} docker-compose start
 
 restart: init
-	cd srcs && $(sudo) docker-compose restart
+	cd srcs && ${sudo} docker-compose restart
 
 stop:
-	cd srcs && $(sudo) docker-compose stop
+	cd srcs && ${sudo} docker-compose stop
 
 clean: down
 	@${sudo} docker image rm -f $$(docker image ls nginx:ahabachi-inception -q)     1> /dev/null 2> /dev/null || true
@@ -60,8 +60,8 @@ clean: down
 	@${sudo} docker volume rm ahabachi-inception-db-volume                          1> /dev/null 2> /dev/null || true
 
 fclean: clean
-	rm -rf ${WORDPRESS_VOLUME}
-	rm -rf ${MARIADB_VOLUME}
+	rm -rf ${INCEPTION_WORDPRESS_VOLUME}
+	rm -rf ${INCEPTION_MARIADB_VOLUME}
 
 ls:
 	@echo "# # # # # # # # # # # # # # # containers # # # # # # # # # # # # # # #"
@@ -74,8 +74,8 @@ ls:
 	@${sudo} docker volume    ls | grep "ahabachi-inception" || true
 
 init:
-	mkdir -p ${WORDPRESS_VOLUME}
-	mkdir -p ${MARIADB_VOLUME}
+	mkdir -p ${INCEPTION_WORDPRESS_VOLUME}
+	mkdir -p ${INCEPTION_MARIADB_VOLUME}
 
 re: fclean all
 

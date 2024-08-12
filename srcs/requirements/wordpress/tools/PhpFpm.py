@@ -26,7 +26,7 @@
 import os
 
 class PhpFpm:
-	def __init__(self, version = os.environ['PHP_VERSION']):
+	def __init__(self, version = os.environ['INCEPTION_PHP_VERSION']):
 		self.version = version
 	def install(self):
 		os.system("apt-get -y install php" + self.version + "-fpm")

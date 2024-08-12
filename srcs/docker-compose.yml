@@ -35,14 +35,14 @@ volumes:
         driver_opts:
             o: bind
             type: none
-            device: $WORDPRESS_VOLUME
+            device: $INCEPTION_WORDPRESS_VOLUME
     ahabachi-inception-db-volume:
         name: ahabachi-inception-db-volume
         driver: local
         driver_opts:
             o: bind
             type: none
-            device: $MARIADB_VOLUME
+            device: $INCEPTION_MARIADB_VOLUME
 
 services:
     mariadb:
@@ -94,7 +94,7 @@ services:
     #     build: ./requirements/bonus/redis
     #     env_file: .env
     #     volumes:
-    #         -  $WORDPRESS_VOLUME:/var/www/wordpress
+    #         -  $INCEPTION_WORDPRESS_VOLUME:/var/www/wordpress
     #     networks:
     #         - inception-network
     #     restart: always
@@ -111,7 +111,7 @@ services:
     #         - inception-network
     #     restart: always
     #     volumes:
-    #         -  $WORDPRESS_VOLUME:/var/www/html
+    #         -  $INCEPTION_WORDPRESS_VOLUME:/var/www/html
     # static-website:
     #     image: static-website:2023.05.12
     #     container_name: static-website
@@ -138,7 +138,7 @@ services:
     #     build: ./requirements/bonus/ftp
     #     env_file: .env
     #     volumes:
-    #         -  $WORDPRESS_VOLUME:/var/www/wordpress
+    #         -  $INCEPTION_WORDPRESS_VOLUME:/var/www/wordpress
     #     ports:
     #         - "21:21"
     #     networks:

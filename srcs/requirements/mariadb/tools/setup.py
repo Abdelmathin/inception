@@ -26,15 +26,13 @@
 import os
 
 class mariaDB:
-	def __init__(self, username, password, host = '0.0.0.0', port = 3306,
-		configfile = "/etc/mysql/mariadb.conf.d/50-server.cnf"
-		):
-		self.username = username
-		self.password = password
-		self.host = host
-		self.port = port
+	def __init__(self, username, password, host, port, configfile):
+		self.username   = username
+		self.password   = password
+		self.host       = host
+		self.port       = port
 		self.configfile = configfile
-		self.cmd = 'mariadb << EOF\n'
+		self.cmd        = 'mariadb << EOF\n'
 	def install(self):
 		os.system("apt-get install -y mariadb-server");
 	def start(self):
@@ -53,31 +51,41 @@ class mariaDB:
 		self.cmd += ("\nshow databases;")
 	def grant(self):
 		self.cmd += "CREATE USER '" + self.username + "'@'%' IDENTIFIED BY '" + self.password+ "';\n"
-		self.cmd += "CREATE USER 'root'@'%' IDENTIFIED BY '" + os.environ['DB_ROOT_PASSWORD'] + "';\n"
+		self.cmd += "CREATE USER 'root'@'%' IDENTIFIED BY '" + os.environ["INCEPTION_DB_ROOT_PASSWORD"] + "';\n"
 		self.cmd += "GRANT ALL PRIVILEGES ON " + self.name + ".* TO '" + self.username +"'@'%';\n"
 		self.cmd += "GRANT ALL PRIVILEGES ON " + self.name + ".* TO 'root'@'%';"
+	
+	def trimall(self, s):
+		for k in "\r\t\n\v\f ":
+			s = s.replace(k, "")
+		return (s.strip())
+
 	def configure(self):
-		text = ''
+		text = ""
 		for line in open(self.configfile):
-			l = line.strip()
-			if (l):
-				if (l.replace('\t', ' ').split(' ')[0] == 'bind-address'):
-					continue
-				if (l.replace('\t', ' ').split(' ')[0] == 'port'):
-					continue
-			text += line + '\n'
-		text += 'bind-address            = 0.0.0.0\n'
-		text += 'port                    = ' + str(self.port) + '\n'
-		text = text.replace('localhost', '0.0.0.0')
-		text = text.replace('127.0.0.1', '0.0.0.0')
+			if (self.trimall(line).startswith("bind-address=")):
+				continue
+			if (self.trimall(line).startswith("port=")):
+				continue
+			text += line + "\n"
+		text += "bind-address            = " + str(self.host) + "\n"
+		text += "port                    = " + str(self.port) + "\n"
+		for host in ["0.0.0.0", "localhost", "127.0.0.1"]:
+			text = text.replace(host, self.host)
 		with open(self.configfile, 'w') as fp:
 			fp.write(text)
 
-db = mariaDB(os.environ.get('DB_USER', None), os.environ.get('DB_PASSWORD', None))
+db = mariaDB(
+	username   = str(os.environ["INCEPTION_DB_USER"]),
+	password   = str(os.environ["INCEPTION_DB_PASSWORD"]),
+	host       = str(os.environ["INCEPTION_DB_BIND_HOST"]),
+	port       = int(os.environ["INCEPTION_DB_BIND_PORT"]),
+	configfile = "/etc/mysql/mariadb.conf.d/50-server.cnf"
+)
 db.install()
 db.configure()
 db.start()
-db.create(os.environ.get('DB_NAME', None))
+db.create(os.environ["INCEPTION_DB_NAME"])
 db.grant()
 db.flush()
 db.show()

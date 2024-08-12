@@ -41,7 +41,7 @@ server {
         try_files       $uri $uri/ /index.php?$args;
     }
 
-    location ~ \.php$ {
+    location ~ \\.php$ {
         try_files       $uri =404;
         fastcgi_pass    wordpress:9000;
         fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
