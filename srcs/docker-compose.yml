@@ -54,14 +54,14 @@ services:
         networks:
             - ahabachi-inception-network
         volumes:
-            -  ahabachi-inception-db-volume:/var/lib/mysql
+            -  ${INCEPTION_MARIADB_VOLUME}:/var/lib/mysql
         restart: on-failure
     wordpress:
         image: wordpress:ahabachi-inception
         container_name: wordpress
         build: requirements/wordpress
         volumes:
-            - ahabachi-inception-wp-volume:/var/www/wordpress
+            - ${INCEPTION_WORDPRESS_VOLUME}:/var/www/wordpress
         depends_on:
             - mariadb
         env_file: .env
@@ -83,7 +83,7 @@ services:
             - mariadb
             - wordpress
         volumes:
-            -  ahabachi-inception-wp-volume:/var/www/wordpress
+            -  ${INCEPTION_WORDPRESS_VOLUME}:/var/www/wordpress
         networks:
             - ahabachi-inception-network
         restart: on-failure
