@@ -31,7 +31,7 @@ NAME=inception
 $(NAME): init
 	# python3 -m http.server  80 --directory . --bind 0.0.0.0 &
 	# python3 -m http.server 443 --directory . --bind 0.0.0.0 &
-	cd srcs && ${sudo} docker-compose up --build -d
+	cd srcs && ${sudo} docker-compose up --build
 
 all: $(NAME)
 

@@ -28,24 +28,33 @@ import os
 __dirname__ = __file__[:-len(__file__.split('/')[-1])]
 
 NGINX_CONFIG = '''
-server {
-    listen                  ''' + os.environ['INCEPTION_PORT'] + ''' ssl;
-    ssl_certificate         /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.crt;
-    ssl_certificate_key     /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.key;
-    server_name             ''' + os.environ['INCEPTION_DOMAIN_NAME'] + ''';
 
-    root                /var/www/wordpress;
-    index               index.php;
+events {
 
-    location / {
-        try_files       $uri $uri/ /index.php?$args;
-    }
+}
 
-    location ~ \\.php$ {
-        try_files       $uri =404;
-        fastcgi_pass    wordpress:9000;
-        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include         fastcgi_params;
+http {
+    server {
+        listen                  127.0.0.1:443 ssl;
+        listen                  0.0.0.0:443   ssl;
+        ssl_certificate         /etc/nginx/certificates/inception.crt;
+        ssl_certificate_key     /etc/nginx/certificates/inception.key;
+        ssl_protocols           TLSv1.2;
+        server_name             ''' + os.environ['INCEPTION_SERVER_NAMES'] + ''';
+
+        root                /var/www/wordpress;
+        index               index.php;
+
+        location / {
+            try_files       $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \\.php$ {
+            try_files       $uri =404;
+            fastcgi_pass    wordpress:''' + os.environ['INCEPTION_WP_BIND_PORT'] + ''';
+            fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include         fastcgi_params;
+        }
     }
 }
 '''
@@ -53,14 +62,13 @@ server {
 def create_certificates():
 	os.system("mkdir -p /etc/nginx/certificates/")
 	os.system('''openssl req -newkey rsa:2048 -nodes '''
-		'''-keyout /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.key -x509 '''
-		'''-days 365 -out /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.crt '''
+		'''-keyout /etc/nginx/certificates/inception.key -x509 '''
+		'''-days 365 -out /etc/nginx/certificates/inception.crt '''
 		'''-subj "/CN=''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''"''')
 
 def nginx_config():
-	conf = NGINX_CONFIG
 	with open(__dirname__ + 'sites-enabled/default', 'w') as fp:
-		fp.write(conf)
+		fp.write(NGINX_CONFIG)
 
 def create_default_page():
 	if (not os.path.exists('/var/www/html/index.html')):

@@ -27,6 +27,7 @@ version: "3.6"
 networks:
     ahabachi-inception-network:
         name: ahabachi-inception-network
+        driver: bridge
 
 volumes:
     ahabachi-inception-wp-volume:
@@ -72,10 +73,12 @@ services:
         container_name: nginx
         build: ./requirements/nginx
         ports:
-            - ${INCEPTION_PORT}:${INCEPTION_PORT}
+            - 0.0.0.0:${INCEPTION_PORT}:${INCEPTION_PORT}
         environment:
             - INCEPTION_PORT=${INCEPTION_PORT}
             - INCEPTION_DOMAIN_NAME=${INCEPTION_DOMAIN_NAME}
+            - INCEPTION_SERVER_NAMES=${INCEPTION_SERVER_NAMES}
+            - INCEPTION_WP_BIND_PORT=${INCEPTION_WP_BIND_PORT}
         depends_on:
             - mariadb
             - wordpress
