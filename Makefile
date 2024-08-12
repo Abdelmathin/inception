@@ -31,27 +31,27 @@ NAME=inception
 $(NAME): init
 	# python3 -m http.server  80 --directory . --bind 0.0.0.0 &
 	# python3 -m http.server 443 --directory . --bind 0.0.0.0 &
-	cd srcs && ${sudo} docker-compose up --build
+	${sudo} docker-compose -f srcs/docker-compose.yml up --build
 
 all: $(NAME)
 
 up: init
-	cd srcs && ${sudo} docker-compose up -d
+	${sudo} docker-compose -f srcs/docker-compose.yml up -d
 
 down:
-	cd srcs && ${sudo} docker-compose down
+	${sudo} docker-compose -f srcs/docker-compose.yml down
 
 build: init
-	cd srcs && ${sudo} docker-compose build
+	${sudo} docker-compose -f srcs/docker-compose.yml build
 
 start: init
-	cd srcs && ${sudo} docker-compose start
+	${sudo} docker-compose -f srcs/docker-compose.yml start
 
 restart: init
-	cd srcs && ${sudo} docker-compose restart
+	${sudo} docker-compose -f srcs/docker-compose.yml restart
 
 stop:
-	cd srcs && ${sudo} docker-compose stop
+	${sudo} docker-compose -f srcs/docker-compose.yml stop
 
 clean: down
 	@${sudo} docker image rm -f $$(docker image ls nginx:ahabachi-inception -q)     1> /dev/null 2> /dev/null || true
