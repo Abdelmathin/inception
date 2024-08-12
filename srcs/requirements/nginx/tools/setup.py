@@ -29,32 +29,26 @@ __dirname__ = __file__[:-len(__file__.split('/')[-1])]
 
 NGINX_CONFIG = '''
 
-events {
+server {
+    listen                  127.0.0.1:443 ssl;
+    listen                  0.0.0.0:443   ssl;
+    ssl_certificate         /etc/nginx/certificates/inception.crt;
+    ssl_certificate_key     /etc/nginx/certificates/inception.key;
+    ssl_protocols           TLSv1.2;
+    server_name             ''' + os.environ['INCEPTION_SERVER_NAMES'] + ''';
 
-}
+    root                /var/www/wordpress;
+    index               index.php;
 
-http {
-    server {
-        listen                  127.0.0.1:443 ssl;
-        listen                  0.0.0.0:443   ssl;
-        ssl_certificate         /etc/nginx/certificates/inception.crt;
-        ssl_certificate_key     /etc/nginx/certificates/inception.key;
-        ssl_protocols           TLSv1.2;
-        server_name             ''' + os.environ['INCEPTION_SERVER_NAMES'] + ''';
+    location / {
+        try_files       $uri $uri/ /index.php?$args;
+    }
 
-        root                /var/www/wordpress;
-        index               index.php;
-
-        location / {
-            try_files       $uri $uri/ /index.php?$args;
-        }
-
-        location ~ \\.php$ {
-            try_files       $uri =404;
-            fastcgi_pass    wordpress:''' + os.environ['INCEPTION_WP_BIND_PORT'] + ''';
-            fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            include         fastcgi_params;
-        }
+    location ~ \\.php$ {
+        try_files       $uri =404;
+        fastcgi_pass    wordpress:''' + os.environ['INCEPTION_WP_BIND_PORT'] + ''';
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include         fastcgi_params;
     }
 }
 '''
