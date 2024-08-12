@@ -62,8 +62,8 @@ clean: down
 	@${sudo} docker volume rm ahabachi-inception-db-volume                          1> /dev/null 2> /dev/null || true
 
 fclean: clean
-	rm -rf ${INCEPTION_WORDPRESS_VOLUME}
-	rm -rf ${INCEPTION_MARIADB_VOLUME}
+	${sudo} rm -rf ${INCEPTION_WORDPRESS_VOLUME}
+	${sudo} rm -rf ${INCEPTION_MARIADB_VOLUME}
 
 ls:
 	@echo "# # # # # # # # # # # # # # # containers # # # # # # # # # # # # # # #"
@@ -76,8 +76,8 @@ ls:
 	@${sudo} docker volume    ls | grep "ahabachi-inception" || true
 
 init:
-	mkdir -p ${INCEPTION_WORDPRESS_VOLUME}
-	mkdir -p ${INCEPTION_MARIADB_VOLUME}
+	${sudo} mkdir -p ${INCEPTION_WORDPRESS_VOLUME}
+	${sudo} mkdir -p ${INCEPTION_MARIADB_VOLUME}
 
 re: fclean all
 
