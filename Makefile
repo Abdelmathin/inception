@@ -29,14 +29,14 @@ include srcs/.env
 NAME=inception
 
 $(NAME): init
-	python3 -m http.server  80 --directory . --bind 0.0.0.0 &
-	python3 -m http.server 443 --directory . --bind 0.0.0.0 &
-	# cd srcs && ${sudo} docker-compose up --build
+	# python3 -m http.server  80 --directory . --bind 0.0.0.0 &
+	# python3 -m http.server 443 --directory . --bind 0.0.0.0 &
+	cd srcs && ${sudo} docker-compose up --build -d
 
 all: $(NAME)
 
 up: init
-	cd srcs && ${sudo} docker-compose up
+	cd srcs && ${sudo} docker-compose up -d
 
 down:
 	cd srcs && ${sudo} docker-compose down

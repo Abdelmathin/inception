@@ -35,14 +35,14 @@ volumes:
         driver_opts:
             o: bind
             type: none
-            device: $INCEPTION_WORDPRESS_VOLUME
+            device: ${INCEPTION_WORDPRESS_VOLUME}
     ahabachi-inception-db-volume:
         name: ahabachi-inception-db-volume
         driver: local
         driver_opts:
             o: bind
             type: none
-            device: $INCEPTION_MARIADB_VOLUME
+            device: ${INCEPTION_MARIADB_VOLUME}
 
 services:
     mariadb:
@@ -53,14 +53,14 @@ services:
         networks:
             - ahabachi-inception-network
         volumes:
-            -  $INCEPTION_MARIADB_VOLUME:/var/lib/mysql
+            -  ahabachi-inception-db-volume:/var/lib/mysql
         restart: on-failure
     wordpress:
         image: wordpress:ahabachi-inception
         container_name: wordpress
         build: requirements/wordpress
         volumes:
-            - $INCEPTION_WORDPRESS_VOLUME:/var/www/wordpress
+            - ahabachi-inception-wp-volume:/var/www/wordpress
         depends_on:
             - mariadb
         env_file: .env
@@ -72,7 +72,7 @@ services:
         container_name: nginx
         build: ./requirements/nginx
         ports:
-            - "$INCEPTION_PORT:$INCEPTION_PORT"
+            - ${INCEPTION_PORT}:${INCEPTION_PORT}
         environment:
             - INCEPTION_PORT=${INCEPTION_PORT}
             - INCEPTION_DOMAIN_NAME=${INCEPTION_DOMAIN_NAME}
@@ -80,7 +80,7 @@ services:
             - mariadb
             - wordpress
         volumes:
-            -  $INCEPTION_WORDPRESS_VOLUME:/var/www/wordpress
+            -  ahabachi-inception-wp-volume:/var/www/wordpress
         networks:
             - ahabachi-inception-network
         restart: on-failure
@@ -94,7 +94,7 @@ services:
     #     build: ./requirements/bonus/redis
     #     env_file: .env
     #     volumes:
-    #         -  $INCEPTION_WORDPRESS_VOLUME:/var/www/wordpress
+    #         -  ahabachi-inception-wp-volume:/var/www/wordpress
     #     networks:
     #         - inception-network
     #     restart: always
@@ -111,7 +111,7 @@ services:
     #         - inception-network
     #     restart: always
     #     volumes:
-    #         -  $INCEPTION_WORDPRESS_VOLUME:/var/www/html
+    #         -  ahabachi-inception-wp-volume:/var/www/html
     # static-website:
     #     image: static-website:2023.05.12
     #     container_name: static-website
@@ -138,7 +138,7 @@ services:
     #     build: ./requirements/bonus/ftp
     #     env_file: .env
     #     volumes:
-    #         -  $INCEPTION_WORDPRESS_VOLUME:/var/www/wordpress
+    #         -  ahabachi-inception-wp-volume:/var/www/wordpress
     #     ports:
     #         - "21:21"
     #     networks:

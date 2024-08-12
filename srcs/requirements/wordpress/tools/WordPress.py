@@ -59,7 +59,7 @@ class WordPress:
 
 		data = data.replace(
 			"define( 'DB_HOST', 'localhost' );",
-			"define( 'DB_HOST', '" + os.environ["INCEPTION_DB_HOST"] + "' );",
+			"define( 'DB_HOST', '" + os.environ["INCEPTION_DB_BIND_HOST"] + "' );",
 			)
 
 		with open('wordpress/wp-config.php', 'w') as fp:
