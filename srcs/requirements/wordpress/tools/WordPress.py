@@ -73,7 +73,7 @@ class WordPress:
 			)
 
 			cmd += '\n' + ('wp-cli.phar core install '
-				'--url="'            + os.environ['DOMAIN_NAME'] + '" '
+				'--url="'            + os.environ['INCEPTION_DOMAIN_NAME'] + '" '
 				'--title="'          + os.environ['WP_TITLE']    + '" '
 				'--admin_user="'     + os.environ['WP_USER']     + '" '
 				'--admin_password="' + os.environ['WP_PASSWORD'] + '" '
@@ -83,7 +83,7 @@ class WordPress:
 				)
 			
 			cmd += '\n' + ('wp-cli.phar core install '
-				'--url="'            + os.environ['DOMAIN_NAME'] + '" '
+				'--url="'            + os.environ['INCEPTION_DOMAIN_NAME'] + '" '
 				'--title="'          + os.environ['WP_TITLE']    + '" '
 				'--admin_user="'     + os.environ['WP_USER']     + '" '
 				'--admin_password="' + os.environ['WP_PASSWORD'] + '" '

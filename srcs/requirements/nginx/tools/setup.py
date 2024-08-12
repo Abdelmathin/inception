@@ -29,11 +29,10 @@ __dirname__ = __file__[:-len(__file__.split('/')[-1])]
 
 NGINX_CONFIG = '''
 server {
-    listen                  ''' + os.environ['NGINX_PORT'] + ''';
-    # listen                  443 ssl;
-    # ssl_certificate         /etc/nginx/certificates/ahabachi.42.fr.crt;
-    # ssl_certificate_key     /etc/nginx/certificates/ahabachi.42.fr.key;
-    server_name             ''' + os.environ['DOMAIN_NAME'] + ''';
+    listen                  ''' + os.environ['INCEPTION_PORT'] + ''' ssl;
+    ssl_certificate         /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.crt;
+    ssl_certificate_key     /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.key;
+    server_name             ''' + os.environ['INCEPTION_DOMAIN_NAME'] + ''';
 
     root                /var/www/wordpress;
     index               index.php;
@@ -54,9 +53,9 @@ server {
 def create_certificates():
 	os.system("mkdir -p /etc/nginx/certificates/")
 	os.system('''openssl req -newkey rsa:2048 -nodes '''
-		'''-keyout /etc/nginx/certificates/ahabachi.42.fr.key -x509 '''
-		'''-days 365 -out /etc/nginx/certificates/ahabachi.42.fr.crt '''
-		'''-subj "/CN=ahabachi.42.fr"''')
+		'''-keyout /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.key -x509 '''
+		'''-days 365 -out /etc/nginx/certificates/''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''.crt '''
+		'''-subj "/CN=''' + os.environ['INCEPTION_DOMAIN_NAME'] + '''"''')
 
 def nginx_config():
 	conf = NGINX_CONFIG
@@ -72,8 +71,10 @@ def create_default_page():
 		os.system("mkdir -p /var/www/wordpress/")
 		with open('/var/www/wordpress/index.html', 'w') as fp:
 			fp.write("<h1>Error Wordpress Not Found!</h1>")
-create_certificates()
-nginx_config()
-create_default_page()
 
-os.system("nginx -g 'daemon off;'")
+if (__name__ == "__main__"):
+
+    create_certificates()
+    nginx_config()
+    create_default_page()
+    os.system("nginx -g 'daemon off;'")

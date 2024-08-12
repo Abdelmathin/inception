@@ -24,44 +24,70 @@
 
 version: "3.6"
 
+networks:
+    ahabachi-inception-network:
+        name: ahabachi-inception-network
+
+volumes:
+    ahabachi-inception-wp-volume:
+        name: ahabachi-inception-wp-volume
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: $WORDPRESS_VOLUME
+    ahabachi-inception-db-volume:
+        name: ahabachi-inception-db-volume
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: $MARIADB_VOLUME
+
 services:
     mariadb:
-        image: mariadb:inception-2023.04.29
+        image: mariadb:ahabachi-inception
         container_name: mariadb
         build: requirements/mariadb
         env_file: .env
         networks:
-            - inception-network
+            - ahabachi-inception-network
         volumes:
-            -  $MARIADB_VOLUME:/var/lib/mysql
-        restart: always
+            -  ahabachi-inception-db-volume:/var/lib/mysql
+        restart: on-failure
     wordpress:
-        image: wordpress:inception-2023.04.22
+        image: wordpress:ahabachi-inception
         container_name: wordpress
         build: requirements/wordpress
         volumes:
-            - $WORDPRESS_VOLUME:/var/www/wordpress
+            - ahabachi-inception-wp-volume:/var/www/wordpress
         depends_on:
             - mariadb
         env_file: .env
         networks:
-            - inception-network
-        restart: always
+            - ahabachi-inception-network
+        restart: on-failure
     nginx:
-        image: nginx:inception-2023.04.13
+        image: nginx:ahabachi-inception
         container_name: nginx
         build: ./requirements/nginx
         ports:
-            - "$NGINX_PORT:$NGINX_PORT"
-        env_file: .env
+            - "$INCEPTION_PORT:$INCEPTION_PORT"
+        environment:
+            - INCEPTION_PORT=${INCEPTION_PORT}
+            - INCEPTION_DOMAIN_NAME=${INCEPTION_DOMAIN_NAME}
         depends_on:
             - mariadb
             - wordpress
         volumes:
-            -  $WORDPRESS_VOLUME:/var/www/wordpress
+            -  ahabachi-inception-wp-volume:/var/www/wordpress
         networks:
-            - inception-network
-        restart: always
+            - ahabachi-inception-network
+        restart: on-failure
+
+
+
+
     # redis:
     #     image: redis:2023.05.03
     #     container_name: redis
@@ -118,7 +144,3 @@ services:
     #     networks:
     #         - inception-network
     #     restart: always
-
-networks:
-    inception-network:
-        name: inception-network
