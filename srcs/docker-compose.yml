@@ -73,7 +73,8 @@ services:
         container_name: nginx
         build: ./requirements/nginx
         ports:
-            - 0.0.0.0:${INCEPTION_PORT}:${INCEPTION_PORT}
+            - 443:443
+            - 80:80
         environment:
             - INCEPTION_PORT=${INCEPTION_PORT}
             - INCEPTION_DOMAIN_NAME=${INCEPTION_DOMAIN_NAME}
