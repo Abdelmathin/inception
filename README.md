@@ -120,7 +120,7 @@ srcs/requirements/bonus:
 
 ### 🎉 Example:
 ```bash
-    docker-compose up -d
+docker-compose up -d
 ```
 
 With this command, you can start all the services defined in your `docker-compose.yml` file in detached mode, making it easy to manage complex applications.
@@ -132,7 +132,7 @@ With this command, you can start all the services defined in your `docker-compos
 ### 📊 Example:
 
 ```bash
-    docker ps
+docker ps
 ```
 
 This command lists all running containers, helping you monitor your application’s state and resource usage.
@@ -148,7 +148,7 @@ This command lists all running containers, helping you monitor your application�
 ### 📄 Example:
 
 ```sql
-    CREATE DATABASE wordpress_db;
+CREATE DATABASE wordpress_db;
 ```
 
 - This SQL command creates a new database specifically
