@@ -153,6 +153,20 @@ This command lists all running containers, helping you monitor your application�
 
 - This SQL command creates a new database specifically
 
+## ⚙️ Adminer
+
+*Adminer* is the friendly interface for database management. It’s like having a personal assistant for your MariaDB database, helping you navigate data effortlessly.
+
+### 🔍 Example:
+
+Access Adminer at `http://localhost:8080` to manage your databases and perform operations with ease. Data management has never been this straightforward!
+
+## 🎨 Contribute & Engage
+
+We welcome contributions from fellow developers! Whether you have ideas for improvements or want to report issues, your input is valuable. Join our community and let’s build something amazing together!
+
+
+
 
 <!--
 
