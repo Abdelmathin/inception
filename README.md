@@ -105,6 +105,55 @@ srcs/requirements/bonus:
     └── static-website             # Static website configuration
 ```
 
+# 🚀 Project Terminology
+
+## 🌐 Docker
+**Docker** is a powerful tool that enables you to package your applications and their dependencies into containers. These containers are portable and can run consistently across different environments.
+
+### 🛠️ Example:
+- After running the Docker command to start the container, you can access your application via `http://localhost`.
+
+---
+
+## 🎼 Docker Compose
+**Docker Compose** is your orchestration maestro, allowing you to define and manage multi-container applications using a single configuration file (`docker-compose.yml`).
+
+### 🎉 Example:
+```bash
+    docker-compose up -d
+```
+
+With this command, you can start all the services defined in your `docker-compose.yml` file in detached mode, making it easy to manage complex applications.
+
+## 🦸‍♂️ Containers
+
+*Containers* are like mini virtual machines that isolate applications from their environments, ensuring they run consistently regardless of where they are deployed.
+
+### 📊 Example:
+
+```bash
+    docker ps
+```
+
+This command lists all running containers, helping you monitor your application’s state and resource usage.
+
+## 👑 WordPress
+
+*WordPress* is the king of content management systems (CMS), powering millions of websites worldwide. In this project, it is containerized for efficient deployment and scalability.
+
+## 🦸‍♀️ MariaDB
+
+*MariaDB* is an open-source relational database management system that serves as the backbone for WordPress, storing all your application data securely.
+
+### 📄 Example:
+
+```sql
+    CREATE DATABASE wordpress_db;
+```
+
+- This SQL command creates a new database specifically
+
+
 <!--
 
 # 42cursus-inception
