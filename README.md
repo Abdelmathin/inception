@@ -1,12 +1,12 @@
 # Inception
 
-<p align="center">
-  <img style="position: absolute;left:0%;top:0%;" height="auto" width="100%" src ="assets/inception.jpeg">
-</p>
-
 ## Overview
 
 **Inception** is a project that aims to deploy a complete web application using Docker containers. It involves setting up multiple services, including a WordPress application, a MariaDB database, an Nginx web server, along with additional tools like Adminer, FTP, Redis, a Python server with SSH, and a static website. This project demonstrates how to manage various services in an isolated, scalable, and containerized environment using Docker Compose.
+
+<p align="center">
+  <img style="position: absolute;left:0%;top:0%;" height="auto" width="100%" src ="assets/inception.jpeg">
+</p>
 
 ## Project Structure
 
