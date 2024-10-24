@@ -1,3 +1,113 @@
+# Inception
+
+<p align="center">
+  <img style="position: absolute;left:0%;top:0%;" height="auto" width="100%" src ="assets/inception.jpeg">
+</p>
+
+## Overview
+
+**Inception** is a project that aims to deploy a complete web application using Docker containers. It involves setting up multiple services, including a WordPress application, a MariaDB database, an Nginx web server, along with additional tools like Adminer, FTP, Redis, a Python server with SSH, and a static website. This project demonstrates how to manage various services in an isolated, scalable, and containerized environment using Docker Compose.
+
+## Project Structure
+
+The project consists of the following main components:
+
+- **WordPress**: A content management system (CMS) running inside a Docker container for managing the website content.
+- **MariaDB**: A lightweight, open-source relational database management system running in a separate container.
+- **Nginx**: A web server that serves the WordPress application, acting as a reverse proxy to handle HTTP requests.
+- **Adminer**: A simple and lightweight database management tool to interact with MariaDB.
+- **FTP Server**: A containerized FTP server to handle file transfers.
+- **Redis**: An in-memory data structure store used as a database, cache, and message broker.
+- **Python Server with SSH**: A container running a Python server with SSH capabilities.
+- **Static Website**: A simple static website served by Nginx.
+
+## Features
+
+- Fully containerized application using Docker.
+- Scalable and easy-to-deploy infrastructure with Docker Compose.
+- Services are isolated within their own containers, improving security and maintainability.
+- Nginx acts as a reverse proxy to forward requests to various services.
+- MariaDB stores and manages all WordPress data securely.
+- Adminer provides an easy-to-use interface for managing MariaDB.
+- FTP service for file transfers.
+- Redis for caching and in-memory storage.
+- Python server with SSH for remote access and execution.
+- Nginx serves both WordPress and a static website.
+
+## Getting Started
+
+### Prerequisites
+
+Ensure that the following software is installed on your system:
+
+- **Docker**: [Get Docker](https://docs.docker.com/get-docker/)
+- **Docker Compose**: [Get Docker Compose](https://docs.docker.com/compose/install/)
+
+### Installation
+
+1. Clone this repository:
+    ```bash
+    git clone https://github.com/Abdelmathin/inception.git
+    cd inception
+    ```
+
+2. Set up environment variables (optional):  
+    You can configure the `.env` file with custom variables for the database, WordPress, Redis, FTP, or other services.
+
+3. Build and start the Docker containers:
+    ```bash
+    docker-compose up --build
+    ```
+
+4. Access the services:
+
+- **WordPress**:  
+    ```
+    http://localhost:443
+    ```
+
+- **Adminer**:  
+    ```
+    http://localhost:8080
+    ```
+
+- **FTP**: Use an FTP client to connect to:  
+    ```
+    ftp://localhost:21
+    ```
+
+- **Python Server with SSH**: SSH into the Python container:
+    ```bash
+    ssh user@localhost -p 2024
+    ```
+
+- **Static Website**:  
+    ```
+    http://localhost:8080
+    ```
+
+## Directory Structure
+
+srcs:
+    ├── docker-compose.yml         # Main Docker Compose file defining all services
+    └── requirements               # Folder containing configurations for all services
+
+srcs/requirements:
+    ├── bonus                      # Additional/Bonus services
+    ├── mariadb                    # MariaDB database configuration
+    ├── nginx                      # Nginx web server configuration
+    └── wordpress                  # WordPress configuration
+
+srcs/requirements/bonus:
+    ├── adminer                    # Adminer (Database management tool) configuration
+    ├── ftp                        # FTP server configuration
+    ├── python-server-with-ssh     # Python server with SSH access
+    ├── redis                      # Redis (in-memory data structure store) configuration
+    └── static-website             # Static website configuration
+
+
+<!--
+
 # 42cursus-inception
 This project aims to broaden your knowledge of system administration by using Docker. You will virtualize several Docker images, creating them in your new personal virtual machine.
 
@@ -96,3 +206,4 @@ Docker is an open platform for developing, shipping, and running applications. D
     * Like docker stop, you can use either the container ID or name.
     * For example, docker rm mycontainer will remove the container named "mycontainer".
 
+-->
