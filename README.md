@@ -88,6 +88,7 @@ Ensure that the following software is installed on your system:
 
 ## Directory Structure
 
+```markdown
 srcs:
     ├── docker-compose.yml         # Main Docker Compose file defining all services
     └── requirements               # Folder containing configurations for all services
@@ -104,7 +105,7 @@ srcs/requirements/bonus:
     ├── python-server-with-ssh     # Python server with SSH access
     ├── redis                      # Redis (in-memory data structure store) configuration
     └── static-website             # Static website configuration
-
+```
 
 <!--
 
